@@ -1,0 +1,106 @@
+<template>
+    <lightning-card title="Hotel Lists">
+        <div class="slds-p-around_medium">
+
+            <template if:true={isGuestMissing}>
+                <div class="slds-text-color_error slds-m-bottom_small">
+                    Please fill Guest Form to select a hotel
+                </div>
+            </template>
+            
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading hotels"></lightning-spinner>
+            </template>
+
+            <template if:true={error}>
+                <div class="slds-text-color_error">{error}</div>
+            </template>
+
+            <template if:true={hotels}>
+                <template if:true={hotels.length}>
+
+                    <form>
+                        <template for:each={hotels} for:item="hotel" for:index="index">
+                            <div key={hotel.Id} class="slds-box slds-m-bottom_small">
+
+                                <label class="slds-radio">
+                                    
+                                   
+                                    <input type="radio"
+                                           name="hotel"
+                                           data-index={index}
+                                           onchange={handleSelect}
+                                           disabled={isGuestMissing}/>
+
+                                    <span class="slds-radio_faux"></span>
+
+                                   
+                                    <div class="slds-m-left_medium">
+
+                                        <div class="slds-grid slds-grid_align-spread">
+
+                                            <div>
+                                                <strong>{hotel.Name}</strong>
+
+                                                <div class="slds-text-body_small">
+                                                    {hotel.Hotel_City__c} — {hotel.Hotel_Type__c}
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <lightning-formatted-number
+                                                    value={hotel.Per_Day_Cost__c}
+                                                    format-style="currency"
+                                                    currency-code="INR">
+                                                </lightning-formatted-number>
+                                            </div>
+
+                                        </div>
+
+                                      
+                                        <div class="slds-m-top_x-small slds-text-body_small">
+                                            WiFi Availability:
+                                            <template if:true={hotel.WiFi_Availability__c}>Yes</template>
+                                            <template if:false={hotel.WiFi_Availability__c}>No</template>
+
+                                            <span class="slds-p-left_small">
+                                                Cash Pay Availability:
+                                                <template if:true={hotel.Cash_Pay_Availability__c}>Yes</template>
+                                                <template if:false={hotel.Cash_Pay_Availability__c}>No</template>
+                                            </span>
+
+                                            <span class="slds-p-left_small">
+                                                Cancellation Availability:
+                                                <template if:true={hotel.Cancellation_Availability__c}>Yes</template>
+                                                <template if:false={hotel.Cancellation_Availability__c}>No</template>
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                </label>
+                            </div>
+                        </template>
+                    </form>
+
+                   
+                    <div class="slds-m-top_medium">
+                        <lightning-button
+                            variant="brand"
+                            label="Confirm"
+                            onclick={handleConfirm}>
+                        </lightning-button>
+                    </div>
+
+                </template>
+
+               
+                <template if:false={hotels.length}>
+                    <div>No hotels found.</div>
+                </template>
+
+            </template>
+
+        </div>
+    </lightning-card>
+</template>
