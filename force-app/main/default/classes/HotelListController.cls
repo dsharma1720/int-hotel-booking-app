@@ -1,13 +1,13 @@
 public with sharing class HotelListController {
 
     @AuraEnabled(cacheable=true)
-    public static List<Hotel_Detail__c> getHotels(String city, String type){
+    public static List<Hotel_Detail__c> getHotels(String city){
         System.debug('CITY: '+ city);
-        System.debug('TYPE: '+ type);
+        
 
 List<Hotel_Detail__c> hotels;
 
-if(String.isBlank(city) &&  String.isBlank(type)){
+if(String.isBlank(city)){
     hotels = [SELECT Id, Name, Hotel_City__c, Hotel_Type__c,
                      Per_Day_Cost__c, WiFi_Availability__c,
                      Cash_Pay_Availability__c, Cancellation_Availability__c
@@ -16,12 +16,24 @@ if(String.isBlank(city) &&  String.isBlank(type)){
     hotels = [SELECT Id, Name, Hotel_City__c, Hotel_Type__c,
                      Per_Day_Cost__c, WiFi_Availability__c,
                      Cash_Pay_Availability__c, Cancellation_Availability__c
-              FROM Hotel_Detail__c WHERE Hotel_City__c = :city AND Hotel_Type__c = :type];
+              FROM Hotel_Detail__c WHERE Hotel_City__c = :city LIMIT 10];
 }
+ 
 
  System.debug('HOTELS FOUND = ' + hotels.size());
  return hotels;       
 
+    }
+    @AuraEnabled(cacheable=true)
+    public static Hotel_Detail__c getHotel(Id hotelId){ 
+
+        return [
+            SELECT Id, Name, Hotel_City__c, Hotel_Type__c,
+                     Per_Day_Cost__c, WiFi_Availability__c,
+                     Cash_Pay_Availability__c, Cancellation_Availability__c
+            FROM Hotel_Detail__c
+            WHERE Id = :hotelId
+        ];
     }
 }
 

@@ -1,12 +1,7 @@
 import { LightningElement, wire} from 'lwc';
-import {NavigationMixin} from 'lightning/navigation';
+import {NavigationMixin, CurrentPageReference} from 'lightning/navigation';
 import saveGuest from '@salesforce/apex/GuestEntryController.saveGuest';
-
-import {getObjectInfo, getPicklistValues} from 'lightning/uiObjectInfoApi';
-
-import HOTEL_OBJECT from '@salesforce/schema/Hotel_Detail__c';
-import CITY_FIELD from '@salesforce/schema/Hotel_Detail__c.Hotel_City__c';
-import TYPE_FIELD from '@salesforce/schema/Hotel_Detail__c.Hotel_Type__c';
+import getHotel from '@salesforce/apex/HotelListController.getHotel';
 
 
 export default class GuestDetailsComponent extends NavigationMixin(LightningElement) {
@@ -32,31 +27,26 @@ export default class GuestDetailsComponent extends NavigationMixin(LightningElem
 
     dateError='';
 
-  @wire(getObjectInfo, {objectApiName: HOTEL_OBJECT})
-  objectInfo;
+    hotelId;
+    hotelName='';
 
- @wire(getPicklistValues, {
-    recordTypeId: '$objectInfo.data.defaultRecordTypeId',
-    fieldApiName: CITY_FIELD
-})
-cityPicklist({ data, error }) {
-    if (data) {
-        this.cityOptions = data.values;
-    }else if (error) {
-            console.error('City Picklist Error', error);
+@wire(CurrentPageReference)
+getStateParameters(pageRef){
+    if(pageRef){
+        this.hotelId = pageRef.state.c__hotelId;
     }
 }
-@wire(getPicklistValues, {
-    recordTypeId: '$objectInfo.data.defaultRecordTypeId',
-    fieldApiName: TYPE_FIELD
-})
-typePicklist({ data, error }) {
-    if (data) {
-        this.hotelOptions = data.values;
-    }else if (error) {
-            console.error('Type Picklist Error', error);
-        }
+@wire(getHotel, {hotelId:'$hotelId'})
+hotelData({data}){
+
+    if(data){
+        console.log('Hotel Data => ', data);
+        this.city = data.Hotel_City__c;
+        this.hotelType = data.Hotel_Type__c;
+        this.hotelName = data.Name;
+    }
 }
+  
    
 
     handleChange(event) {
@@ -82,7 +72,10 @@ typePicklist({ data, error }) {
 
     handleNext(){
         this.dateError = '';
-
+if(!this.firstName || !this.lastName || !this.email || !this.phone){
+    this.dateError = 'Please fill all required guest details';
+    return;
+}
        if(!this.checkIn || !this.checkOut){
         this.dateError = 'Please select both Check-In and Check-Out dates';
         return;
@@ -109,11 +102,10 @@ typePicklist({ data, error }) {
 
             this[NavigationMixin.Navigate]({
                 type:'standard__navItemPage',
-                attributes:{ apiName:'Hotel_Lists_Details' },
+                attributes:{ apiName:'Payment_Details' },
                 state:{
-                    c__city:this.city,
-                    c__type:this.hotelType,
-                    c__guestId:guestId
+                    c__guestId:guestId,
+                    c__hotelId: this.hotelId
                 }
             });
 

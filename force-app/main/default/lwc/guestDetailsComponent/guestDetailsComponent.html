@@ -1,7 +1,13 @@
 <template>
-    <lightning-card title="Guest Entry Form">
+    <lightning-card title="Guest Form Details">
 
         <div class="slds-p-around_medium">
+
+            <lightning-input
+    label="Selected Hotel"
+    value={hotelName}
+    disabled>
+</lightning-input>
 
             <lightning-input label="First Name"
                 data-field="firstName"
@@ -53,24 +59,23 @@
     </div>
 </template>
 
-            <lightning-combobox 
+            <lightning-input
                 label="Hotel City"
-                placeholder="Select Hotel City"
+                
                 data-field="city"
                 options={cityOptions}
                 value={city}
-                onchange={handleChange} required>
-            </lightning-combobox>
-          
+                disabled>
+            </lightning-input>
 
-            <lightning-combobox
+            <lightning-input
                 label="Hotel Type"
-                placeholder="Select Hotel Type"
+               
                 data-field="hotelType"
                 options={hotelOptions}
                 value={hotelType}
-                onchange={handleChange} required>
-            </lightning-combobox>
+               disabled>
+            </lightning-input>
 
 
             <br/>

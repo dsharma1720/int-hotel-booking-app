@@ -1,13 +1,14 @@
 <template>
     <lightning-card title="Hotel Lists">
         <div class="slds-p-around_medium">
-
-            <template if:true={isGuestMissing}>
-                <div class="slds-text-color_error slds-m-bottom_small">
-                    Please fill Guest Form to select a hotel
-                </div>
-            </template>
-            
+<div class="slds-m-bottom_medium">
+            <lightning-combobox
+            label="Select City"
+            value={city}
+            options={cityOptions}
+            onchange={handleCityChange}>
+            </lightning-combobox>
+            </div>
             <template if:true={isLoading}>
                 <lightning-spinner alternative-text="Loading hotels"></lightning-spinner>
             </template>
@@ -23,6 +24,7 @@
                         <template for:each={hotels} for:item="hotel" for:index="index">
                             <div key={hotel.Id} class="slds-box slds-m-bottom_small">
 
+
                                 <label class="slds-radio">
                                     
                                    
@@ -30,7 +32,7 @@
                                            name="hotel"
                                            data-index={index}
                                            onchange={handleSelect}
-                                           disabled={isGuestMissing}/>
+                                          />
 
                                     <span class="slds-radio_faux"></span>
 
@@ -82,16 +84,15 @@
                             </div>
                         </template>
                     </form>
-
-                   
-                    <div class="slds-m-top_medium">
+ <div class="slds-m-top_medium">
                         <lightning-button
                             variant="brand"
-                            label="Confirm"
-                            onclick={handleConfirm}>
+                            label="Book Selected Hotel"
+                            onclick={handleBook}>
                         </lightning-button>
                     </div>
-
+                   
+                    
                 </template>
 
                
