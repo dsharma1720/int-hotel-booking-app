@@ -1,0 +1,27 @@
+<template>
+
+<div class="header">
+
+<h2>Hotel Booking</h2>
+
+<template if:true={userName}>
+<span class="welcome">Welcome, {userName}</span>
+</template>
+
+<template if:false={userName}>
+
+<lightning-button
+label="Login"
+onclick={handleLogin}>
+</lightning-button>
+
+<lightning-button
+label="Sign Up"
+onclick={handleSignup}>
+</lightning-button>
+
+</template>
+
+</div>
+
+</template>

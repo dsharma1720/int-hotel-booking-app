@@ -15,4 +15,3 @@ Apex | LWC | SOQL | NavigationMixin
 Salesforce Org: https://orgfarm-011df81aec-dev-ed.develop.lightning.force.com/lightning/page/home
 
 
-

@@ -1,0 +1,58 @@
+<template>
+
+<lightning-card title="Create Account">
+
+<div class="slds-p-around_medium">
+
+<lightning-input label="First Name"
+data-field="firstName"
+value={firstName}
+required
+onchange={handleChange}>
+</lightning-input>
+
+<lightning-input label="Last Name"
+data-field="lastName"
+value={lastName}
+required
+onchange={handleChange}>
+</lightning-input>
+
+<lightning-input type="email"
+label="Email"
+data-field="email"
+value={email}
+required
+onchange={handleChange}>
+</lightning-input>
+
+<lightning-input type="tel"
+label="Phone"
+data-field="phone"
+
+value={phone}
+required
+onchange={handleChange}>
+</lightning-input>
+
+<lightning-input type="password"
+label="Password"
+data-field="password"
+value={password}
+required
+onchange={handleChange}>
+</lightning-input>
+
+<br/>
+
+<lightning-button
+label="Sign Up"
+variant="brand"
+onclick={handleSignup}>
+</lightning-button>
+
+</div>
+
+</lightning-card>
+
+</template>

@@ -5,14 +5,15 @@ public with sharing class GuestEntryController {
      String firstName,
      String lastName,
      String email,
-     String phone
+     String phone,
+     Id hotelId
     ){
      Guest_Detail__c g = new Guest_Detail__c();
          g.Guest_First_Name__c = firstName;
          g.Guest_Last_Name__c = lastName;
          g.Guest_Email__c = email;
          g.Guest_Phone__c = phone;
-
+         g.Hotel__c = hotelId;
      insert g;
      return g.Id;
     }

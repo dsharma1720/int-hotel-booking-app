@@ -95,6 +95,7 @@ if(!this.firstName || !this.lastName || !this.email || !this.phone){
         lastName: this.lastName,
         email: this.email,
         phone: this.phone,
+        hotelId: this.hotelId
 
     }).then(guestId => {
        

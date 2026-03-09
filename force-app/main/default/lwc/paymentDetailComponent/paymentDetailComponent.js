@@ -84,10 +84,7 @@ export default class PaymentDetailComponent extends NavigationMixin(LightningEle
         this.cardError = 'Card number must contain only digits';
         isValid = false;
     }
-    else if(this.cardNumber.length !== 14){
-        this.cardError = 'Card number must be 14 digits';
-        isValid = false;
-    }
+    
 
   
     if(!this.cvv){
@@ -98,10 +95,7 @@ export default class PaymentDetailComponent extends NavigationMixin(LightningEle
         this.cvvError = 'CVV must contain only digits';
         isValid = false;
     }
-    else if(this.cvv.length !== 4){
-        this.cvvError = 'CVV must be 4 digits';
-        isValid = false;
-    }
+   
 
 
     if(!this.expiryMonth){

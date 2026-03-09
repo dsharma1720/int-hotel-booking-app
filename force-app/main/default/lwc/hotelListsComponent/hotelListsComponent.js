@@ -46,6 +46,7 @@ cityPicklist({ data, error }) {
             this.hotels = data;
             this.error = undefined;
             this.isLoading = false;
+            
         }
     else if(error){
             this.error = error.body?.message;
@@ -55,41 +56,31 @@ cityPicklist({ data, error }) {
         this.isLoading = true;
         }
     }
+   
 
     handleCityChange(event){
         this.city = event.target.value;
         this.selectedHotel = null;
     }
 
-    
+  
 
-    handleSelect(event) {
-       const index = event.target.dataset.index;
-        this.selectedHotel = { ...this.hotels[index] };
+   handleSelect(event){
 
-        console.log('Selected Hotel:', this.selectedHotel);
-    
-    }
- 
-  handleBook() {
+const hotelId = event.currentTarget.dataset.id;
 
-        if (!this.selectedHotel) {
-            this.showToast('No selection', 'Please select a hotel.', 'warning');
-            return;
-        }  
-            this.showToast('Hotel Selected', this.selectedHotel.Name, 'success');
-        
+this[NavigationMixin.Navigate]({
+type:'standard__navItemPage',
+attributes:{
+apiName:'Hotel_Details'
+},
+state:{
+c__hotelId: hotelId
+}
+});
 
-        this[NavigationMixin.Navigate]({
-            type: 'standard__navItemPage',  
-            attributes: {
-                apiName: 'Guest_Entry_Details'
-            },
-            state: {
-                c__hotelId: this.selectedHotel.Id
-            }
-        });
-    }
+}
+
 
 
    showToast(title, message, variant){

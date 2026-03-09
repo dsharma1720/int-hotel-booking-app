@@ -1,0 +1,53 @@
+<template>
+    <template if:true={hotel}>
+
+<lightning-card title="Hotel Details">
+
+<div class="slds-p-around_medium">
+
+<h1 class="hotel-title">{hotel.Hotel_Name__c}</h1>
+
+<p><b>City:</b> {hotel.Hotel_City__c}</p>
+<p><b>Type:</b> {hotel.Hotel_Type__c}</p>
+<p><b>Rating:</b> ⭐ {hotel.Hotel_Rating__c}</p>
+
+<p><b>Price per Night:</b>
+<lightning-formatted-number
+value={hotel.Per_Day_Cost__c}
+format-style="currency"
+currency-code="INR">
+<span class="price-text"> / night</span>
+</lightning-formatted-number>
+</p>
+
+<p><b>WiFi:</b> {hotel.WiFi_Availability__c}</p>
+<p><b>Cash Pay:</b> {hotel.Cash_Pay_Availability__c}</p>
+<p><b>Cancellation:</b> {hotel.Cancellation_Availability__c}</p>
+
+<div class="slds-m-top_large">
+
+<lightning-button
+variant="brand"
+label="Book Hotel"
+onclick={handleBook}>
+</lightning-button>
+
+</div>
+
+</div>
+
+</lightning-card>
+
+</template>
+<template if:false={hotel}>
+
+<lightning-card title="Hotel Details">
+<div class="slds-p-around_medium slds-text-align_center">
+
+<p>Select a hotel from the Hotel Lists page to view details.</p>
+
+</div>
+</lightning-card>
+
+</template>
+</template>

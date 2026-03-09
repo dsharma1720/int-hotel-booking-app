@@ -39,11 +39,14 @@ public static Id savePayment(
   
     try{
 
-        Guest_Detail__c guest = [
-            SELECT Guest_Email__c, Guest_First_Name__c
-            FROM Guest_Detail__c
-            WHERE Id = :guestId
-            LIMIT 1
+       
+    Guest_Detail__c guest = [
+        SELECT Guest_Email__c,
+               Guest_First_Name__c,
+               Hotel__r.Hotel_Name__c
+        FROM Guest_Detail__c
+        WHERE Id = :guestId
+        LIMIT 1
         ];
 
         if(String.isNotBlank(guest.Guest_Email__c)){
@@ -59,14 +62,18 @@ public static Id savePayment(
                 new String[]{ guest.Guest_Email__c }
             );
 
-            mail.setSubject('Payment Successful');
+            mail.setSubject('Hotel Booking & Payment Confirmation');
 
-            mail.setPlainTextBody(
-                'Hi ' + guest.Guest_First_Name__c +
-                ',\n\nYour payment is successful.' +
-                '\nPayment Code: ' + payment.Name +
-                '\n\nThank you for booking with us.'
-            );
+        mail.setPlainTextBody(
+            'Hi ' + guest.Guest_First_Name__c +
+            ',\n\nYour payment has been successfully processed.' +
+
+            '\n\nBooking Details:' +
+            '\nHotel Name: ' + guest.Hotel__r.Hotel_Name__c +
+            '\n\nPayment Code: ' + payment.Name +
+
+            '\n\nThank you for booking with us!'
+        );
            mail.setWhatId(guestId); 
               mail.setSaveAsActivity(true);  
               mail.setOrgWideEmailAddressId(owea.Id);

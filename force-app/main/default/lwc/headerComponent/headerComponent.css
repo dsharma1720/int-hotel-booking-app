@@ -1,0 +1,22 @@
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px;
+background:#0176d3;
+color:white;
+}
+
+.logo{
+font-size:20px;
+font-weight:bold;
+}
+
+.auth-buttons lightning-button{
+margin-left:10px;
+}
+.signup-btn button{
+background:#ff6b00;
+border-color:#ff6b00;
+color:white;
+}
