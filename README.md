@@ -3,8 +3,8 @@ A Salesforce project built using Apex and Lightning Web Components.
 
 🔹 Features:
 - Hotel Search by City 
-- Guest Entry Form
-- Hotel Selection Flow
+- Hotel Selection Flow  
+- Guest Entry Form 
 - Payment Processing
 - Email Confirmation
 
