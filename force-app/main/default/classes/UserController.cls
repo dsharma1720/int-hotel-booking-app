@@ -1,7 +1,13 @@
 public with sharing class UserController {
 
     @AuraEnabled
-    public static Id createUser(String firstName, String lastName, String email, String phone, String password){
+    public static Id createUser(
+        String firstName,
+        String lastName,
+        String email,
+        String phone,
+        String password
+    ){
 
         User_Account__c user = new User_Account__c();
 
@@ -16,22 +22,26 @@ public with sharing class UserController {
         return user.Id;
     }
 
+
     @AuraEnabled
     public static User_Account__c loginUser(String email, String password){
 
-      List<User_Account__c> users = [
-SELECT Id, First_Name__c
-FROM User_Account__c
-WHERE Email__c = :email
-AND Password__c = :password
-LIMIT 1
-];
+        List<User_Account__c> users = [
+            SELECT Id,
+                   First_Name__c,
+                   Last_Name__c,
+                   Email__c,
+                     Phone__c
+            FROM User_Account__c
+            WHERE Email__c = :email
+            AND Password__c = :password
+            LIMIT 1
+        ];
 
-if(users.size() > 0){
-return users[0];
-}
+        if(!users.isEmpty()){
+            return users[0];
+        }
 
-return null;
-
-}
+        return null;
+    }
 }

@@ -6,11 +6,18 @@
 
             <lightning-input
                 label="Card Number"
-                data-field="cardNumber"
-                 type="number"
-                onchange={handleChange}
-                required>
+               maxlength="23"
+               type="text"
+               inputmode="numeric"
+               value={cardNumber}
+               onchange={handleCardNumberChange}
+               >
             </lightning-input>
+            <template if:true={cardType}>
+    <div class="card-type">
+        💳 {cardType}
+    </div>
+</template>
             <template if:true={cardError}>
     <div class="slds-text-color_error slds-text-body_small">
         {cardError}
@@ -19,10 +26,13 @@
 
             <lightning-input
                 label="CVV"
-                data-field="cvv"
-                 type="number"
-                onchange={handleChange}
-                required>
+                
+               maxlength="4"
+                type="text"
+                inputmode="numeric"
+                value={cvv}
+                onchange={handleCvvChange}
+                >
             </lightning-input>
 <template if:true={cvvError}>
     <div class="slds-text-color_error slds-text-body_small">

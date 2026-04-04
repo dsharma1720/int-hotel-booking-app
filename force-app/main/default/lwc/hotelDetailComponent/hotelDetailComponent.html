@@ -5,11 +5,18 @@
 
 <div class="slds-p-around_medium">
 
-<h1 class="hotel-title">{hotel.Hotel_Name__c}</h1>
+<div class="detail-top">
+    <h1 class="hotel-title">{hotel.Hotel_Name__c}</h1>
+    <div class="hotel-rating">
+        <template for:each={stars} for:item="star">
+            <span key={star.key} class={star.cls}>&#9733;</span>
+        </template>
+        <span class="rating-number">{hotel.Hotel_Rating__c}</span>
+    </div>
+</div>
 
 <p><b>City:</b> {hotel.Hotel_City__c}</p>
 <p><b>Type:</b> {hotel.Hotel_Type__c}</p>
-<p><b>Rating:</b> ⭐ {hotel.Hotel_Rating__c}</p>
 
 <p><b>Price per Night:</b>
 <lightning-formatted-number
@@ -20,9 +27,23 @@ currency-code="INR">
 </lightning-formatted-number>
 </p>
 
-<p><b>WiFi:</b> {hotel.WiFi_Availability__c}</p>
-<p><b>Cash Pay:</b> {hotel.Cash_Pay_Availability__c}</p>
-<p><b>Cancellation:</b> {hotel.Cancellation_Availability__c}</p>
+<div class="amenities">
+    <span class="amenity-badge">
+        &#128246; WiFi
+        <template if:true={hotel.WiFi_Availability__c}><span class="badge-yes">&#10003;</span></template>
+        <template if:false={hotel.WiFi_Availability__c}><span class="badge-no">&#10007;</span></template>
+    </span>
+    <span class="amenity-badge">
+        &#128181; Cash Pay
+        <template if:true={hotel.Cash_Pay_Availability__c}><span class="badge-yes">&#10003;</span></template>
+        <template if:false={hotel.Cash_Pay_Availability__c}><span class="badge-no">&#10007;</span></template>
+    </span>
+    <span class="amenity-badge">
+        &#8635; Cancellation
+        <template if:true={hotel.Cancellation_Availability__c}><span class="badge-yes">&#10003;</span></template>
+        <template if:false={hotel.Cancellation_Availability__c}><span class="badge-no">&#10007;</span></template>
+    </span>
+</div>
 
 <div class="slds-m-top_large">
 

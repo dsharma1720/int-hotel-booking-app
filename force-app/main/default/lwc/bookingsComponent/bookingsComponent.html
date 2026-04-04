@@ -1,0 +1,79 @@
+<template>
+    <div class="slds-p-around_large">
+
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+        </template>
+
+        <template if:false={isLoading}>
+
+            <template if:true={hasBookings}>
+                <template for:each={bookings} for:item="booking">
+                    <div key={booking.Id} class="booking-card slds-m-bottom_medium">
+
+                        <div class="booking-header">
+                            <span class="slds-text-heading_small">{booking.Hotel__r.Hotel_Name__c}</span>
+                        </div>
+
+                        <div class="booking-body slds-grid slds-wrap slds-gutters slds-m-top_small">
+                            <div class="slds-col slds-size_1-of-2">
+                                <p class="detail-label">Check-In</p>
+                                <p class="detail-value">{booking.Check_In_Date__c}</p>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <p class="detail-label">Check-Out</p>
+                                <p class="detail-value">{booking.Check_Out_Date__c}</p>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-m-top_small">
+                                <p class="detail-label">Adults</p>
+                                <p class="detail-value">{booking.Adults__c}</p>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-m-top_small">
+                                <p class="detail-label">Children</p>
+                                <p class="detail-value">{booking.Children__c}</p>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-m-top_small">
+                                <p class="detail-label">Nights</p>
+                                <p class="detail-value">{booking.nights}</p>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-m-top_small">
+                                <p class="detail-label">Total Amount</p>
+                                <p class="detail-value total-amount">INR {booking.totalAmount}</p>
+                            </div>
+                        </div>
+
+                        <template if:true={booking.hasPayment}>
+                            <div class="payment-section slds-m-top_small">
+                                <p class="detail-label">Payment</p>
+                                <p class="detail-value">
+                                    **** **** **** {booking.last4} &nbsp;|&nbsp; Exp: {booking.paymentExpiry}
+                                </p>
+                            </div>
+                        </template>
+
+                        <template if:true={booking.hasEmail}>
+                            <div class="email-toggle slds-m-top_small" data-id={booking.Id} onclick={toggleEmail}>
+                                <span class="email-toggle-label">&#128231; Confirmation Email</span>
+                                <span class="email-toggle-icon">{booking.emailToggleIcon}</span>
+                            </div>
+                            <template if:true={booking.showEmail}>
+                                <div class="email-body slds-m-top_x-small">
+                                    <p class="email-subject">{booking.emailSubject}</p>
+                                    <pre class="email-text">{booking.emailBody}</pre>
+                                </div>
+                            </template>
+                        </template>
+
+                    </div>
+                </template>
+            </template>
+
+            <template if:false={hasBookings}>
+                <div class="no-bookings">
+                    <p>No bookings found for your account.</p>
+                </div>
+            </template>
+
+        </template>
+    </div>
+</template>

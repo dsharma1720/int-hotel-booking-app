@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
+    <label>Integration App</label>
+    <navType>Console</navType>
+    <tabs>standard-IntegrationIntelligence</tabs>
+    <tabs>Guest_Detail__c</tabs>
+    <tabs>Hotel_Detail__c</tabs>
+    <tabs>Payment_Detail__c</tabs>
+    <tabs>User_Account__c</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Integration_UtilityBar</utilityBar>
+    <workspaceConfig>
+        <mappings>
+            <tab>Guest_Detail__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Hotel_Detail__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Payment_Detail__c</tab>
+        </mappings>
+        <mappings>
+            <tab>User_Account__c</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-IntegrationIntelligence</tab>
+        </mappings>
+    </workspaceConfig>
+</CustomApplication>

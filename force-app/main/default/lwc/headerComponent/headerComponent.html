@@ -2,26 +2,103 @@
 
 <div class="header">
 
-<h2>Hotel Booking</h2>
+<h1 class="logo">Hotel Booking</h1>
 
-<template if:true={userName}>
-<span class="welcome">Welcome, {userName}</span>
+<div class="user-section">
+
+<template if:true={isLoggedIn}>
+
+<div class="user-menu">
+
+<div class="user-name" onclick={toggleMenu}>
+{userName}
+</div>
+
+<template if:true={showMenu}>
+    <div class="backdrop" onclick={closeMenu}></div>
+
+<div class="dropdown">
+
+<div class="menu-item" onclick={handleMyAccount}>
+My Account
+</div>
+
+<div class="menu-item" onclick={handleBookings}>
+Bookings
+</div>
+
+<div class="menu-item logout" onclick={handleLogout}>
+Logout
+</div>
+
+</div>
+
 </template>
 
-<template if:false={userName}>
+</div>
+
+</template>
+<template if:false={isLoggedIn}>
 
 <lightning-button
 label="Login"
+variant="neutral"
 onclick={handleLogin}>
 </lightning-button>
 
 <lightning-button
 label="Sign Up"
+variant="brand"
+class="slds-m-left_small"
 onclick={handleSignup}>
 </lightning-button>
 
 </template>
 
 </div>
+
+</div>
+
+<!-- Login Modal -->
+<template if:true={showLogin}>
+    <div class="modal-backdrop" onclick={closeLogin}></div>
+    <div class="modal-container modal-small">
+        <div class="modal-header">
+            <span class="modal-title">Login</span>
+            <span class="modal-close" onclick={closeLogin}>&#x2715;</span>
+        </div>
+        <div class="modal-body">
+            <c-login-component onloginsuccess={handleLoginSuccess}></c-login-component>
+        </div>
+    </div>
+</template>
+
+<!-- Signup Modal -->
+<template if:true={showSignup}>
+    <div class="modal-backdrop" onclick={closeSignup}></div>
+    <div class="modal-container modal-small">
+        <div class="modal-header">
+            <span class="modal-title">Sign Up</span>
+            <span class="modal-close" onclick={closeSignup}>&#x2715;</span>
+        </div>
+        <div class="modal-body">
+            <c-signup-component onsignupsuccess={handleSignupSuccess}></c-signup-component>
+        </div>
+    </div>
+</template>
+
+<!-- Bookings Modal -->
+<template if:true={showBookings}>
+    <div class="modal-backdrop" onclick={closeBookings}></div>
+    <div class="modal-container">
+        <div class="modal-header">
+            <span class="modal-title">My Bookings</span>
+            <span class="modal-close" onclick={closeBookings}>&#x2715;</span>
+        </div>
+        <div class="modal-body">
+            <c-bookings-component></c-bookings-component>
+        </div>
+    </div>
+</template>
 
 </template>

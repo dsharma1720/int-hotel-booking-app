@@ -1,9 +1,8 @@
 import { LightningElement } from 'lwc';
 import createUser from '@salesforce/apex/UserController.createUser';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { NavigationMixin } from 'lightning/navigation';
 
-export default class SignupComponent extends NavigationMixin(LightningElement) {
+export default class SignupComponent extends LightningElement {
 
 firstName='';
 lastName='';
@@ -42,14 +41,19 @@ password:this.password
 
 
 .then(()=>{
-localStorage.setItem('loggedUser', this.firstName);
+localStorage.setItem('loggedUser', this.firstName + ' ' + this.lastName);
+localStorage.setItem('loggedUserFirstName', this.firstName);
+localStorage.setItem('loggedUserLastName', this.lastName);
+localStorage.setItem('loggedUserEmail', this.email);
+localStorage.setItem('loggedUserPhone', this.phone);
 this.showToast('Success','Account Created Successfully','success');
-this[NavigationMixin.Navigate]({
-    type: 'standard__navItemPage',
-    attributes:{
-        apiName:'Hotel_Lists_Details'
-    }
-});
+
+const userName = this.firstName + ' ' + this.lastName;
+this.dispatchEvent(new CustomEvent('signupsuccess', {
+    detail: { userName },
+    bubbles: true,
+    composed: true
+}));
 })
 
 .catch(error=>{

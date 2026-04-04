@@ -1,0 +1,98 @@
+.booking-card {
+    background: #ffffff;
+    border: 1px solid #dddbda;
+    border-radius: 8px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.booking-header {
+    border-bottom: 2px solid #0176d3;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.detail-label {
+    font-size: 0.75rem;
+    color: #706e6b;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.detail-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #181818;
+    margin: 0.1rem 0 0;
+}
+
+.total-amount {
+    color: #0176d3;
+}
+
+.location-text {
+    color: #706e6b;
+}
+
+.payment-section {
+    background: #f3f3f3;
+    border-radius: 4px;
+    padding: 0.5rem 0.75rem;
+}
+
+.no-bookings {
+    text-align: center;
+    color: #706e6b;
+    padding: 3rem;
+    font-size: 1rem;
+}
+
+.email-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #eef3ff;
+    border: 1px solid #d0d9f0;
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.email-toggle:hover {
+    background: #dce8ff;
+}
+
+.email-toggle-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1b4f9c;
+}
+
+.email-toggle-icon {
+    font-size: 0.8rem;
+    color: #1b4f9c;
+}
+
+.email-body {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.email-subject {
+    font-weight: 700;
+    color: #1b4f9c;
+    margin: 0 0 8px 0;
+    font-size: 0.9rem;
+}
+
+.email-text {
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: #333;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin: 0;
+}

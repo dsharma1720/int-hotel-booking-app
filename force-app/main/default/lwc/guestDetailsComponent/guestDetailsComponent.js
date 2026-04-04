@@ -17,7 +17,7 @@ export default class GuestDetailsComponent extends NavigationMixin(LightningElem
     cityOptions = [];
     hotelOptions = [];
 
-    adults=0;
+    adults=1;
     children=0;
 
     checkIn='';
@@ -29,6 +29,19 @@ export default class GuestDetailsComponent extends NavigationMixin(LightningElem
 
     hotelId;
     hotelName='';
+
+   connectedCallback(){
+
+this.firstName = localStorage.getItem('loggedUserFirstName') || '';
+this.lastName = localStorage.getItem('loggedUserLastName') || '';
+this.email = localStorage.getItem('loggedUserEmail') || '';
+this.phone = localStorage.getItem('loggedUserPhone') || '';
+console.log('First Name:', this.firstName);
+console.log('Last Name:', this.lastName);
+console.log('Email:', this.email);
+console.log('Phone:', this.phone);
+
+}
 
 @wire(CurrentPageReference)
 getStateParameters(pageRef){
@@ -43,7 +56,7 @@ hotelData({data}){
         console.log('Hotel Data => ', data);
         this.city = data.Hotel_City__c;
         this.hotelType = data.Hotel_Type__c;
-        this.hotelName = data.Name;
+        this.hotelName = data.Hotel_Name__c;
     }
 }
   
@@ -95,7 +108,11 @@ if(!this.firstName || !this.lastName || !this.email || !this.phone){
         lastName: this.lastName,
         email: this.email,
         phone: this.phone,
-        hotelId: this.hotelId
+        hotelId: this.hotelId,
+        checkIn: this.checkIn,
+        checkOut: this.checkOut,
+        adults: this.adults,
+        children: this.children
 
     }).then(guestId => {
        

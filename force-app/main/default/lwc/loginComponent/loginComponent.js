@@ -1,8 +1,7 @@
 import { LightningElement } from 'lwc';
 import loginUser from '@salesforce/apex/UserController.loginUser';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { NavigationMixin } from 'lightning/navigation';
-export default class LoginComponent extends NavigationMixin(LightningElement) {
+export default class LoginComponent extends LightningElement {
 
 email='';
 password='';
@@ -28,18 +27,31 @@ password:this.password
 })
 
 .then(result => {
+   console.log('Login Result:', result);
 if(result){
-localStorage.setItem('loggedUser', result.First_Name__c);
+console.log('Saving user to localStorage...');
+localStorage.setItem('loggedUserFirstName', result.First_Name__c);
+localStorage.setItem('loggedUserLastName', result.Last_Name__c);
+let fullName = result.First_Name__c + ' ' + result.Last_Name__c;
+
+localStorage.setItem('loggedUser', fullName);
+localStorage.setItem('loggedUserEmail', result.Email__c || '');
+localStorage.setItem('loggedUserPhone', result.Phone__c);
+localStorage.setItem('loggedUserId', result.Id);
+
+console.log('Stored First Name:', localStorage.getItem('loggedUserFirstName'));
+console.log('Stored Last Name:', localStorage.getItem('loggedUserLastName'));
+console.log('Stored Email:', localStorage.getItem('loggedUserEmail'));
+console.log('Stored Phone:', localStorage.getItem('loggedUserPhone'));
+console.log('Saved Name:', localStorage.getItem('loggedUser'));
 
 this.showToast('Success','Login Successful','success');
-window.location.href='/lightning/n/Hotel_Lists_Details';
 
-this[NavigationMixin.Navigate]({
-type:'standard__navItemPage',
-attributes:{
-apiName:'Hotel_Lists_Details'
-}
-});
+this.dispatchEvent(new CustomEvent('loginsuccess', {
+    detail: { userName: fullName },
+    bubbles: true,
+    composed: true
+}));
 }else {
 
 this.showToast('Error','Invalid Credentials','error');

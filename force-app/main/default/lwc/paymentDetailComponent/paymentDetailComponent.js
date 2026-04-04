@@ -11,151 +11,189 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class PaymentDetailComponent extends NavigationMixin(LightningElement){
 
-    cardNumber;
-    cvv;
-    expiryMonth;
-    expiryYear;
-    guestId;
-    cardError = '';
-    cvvError = '';
-    monthError = '';
-    yearError = '';
+cardNumber='';
+cvv='';
+expiryMonth='';
+expiryYear='';
+guestId;
 
-    monthOptions = [];
-    yearOptions = [];
-       
-    @wire(getObjectInfo, { objectApiName: PAYMENT_OBJECT })
-    objectInfo;
+cardError='';
+cvvError='';
+monthError='';
+yearError='';
 
-    @wire(getPicklistValues, {
-        recordTypeId: '$objectInfo.data.defaultRecordTypeId',
-        fieldApiName: MONTH_FIELD
-    })
-    monthPicklist({ data, error }) {
-        if (data) {
-            this.monthOptions = data.values;
-        } else if (error) {
-            console.error('Month Picklist Error', error);
-        }
-    }
+monthOptions=[];
+yearOptions=[];
+cardType='';
 
-    @wire(getPicklistValues, {
-        recordTypeId: '$objectInfo.data.defaultRecordTypeId',
-        fieldApiName: YEAR_FIELD
-    })
-    yearPicklist({ data, error }) {
-        if (data) {
-            this.yearOptions = data.values;
-        } else if (error) {
-            console.error('Year Picklist Error', error);
-        }
-    }
+@wire(getObjectInfo, { objectApiName: PAYMENT_OBJECT })
+objectInfo;
 
-  
-    @wire(CurrentPageReference)
-    getState(pageRef){
-        if(pageRef?.state?.c__guestId){
-            this.guestId = pageRef.state.c__guestId;
-             console.log("GuestId received:", this.guestId);
-        }
-    }
-
-    handleChange(event){
-        const field = event.target.dataset.field;
-        this[field] = event.target.value;
-         console.log(field, event.target.value);
-    }
-
-    handleSubmit(){
-         console.log("GuestId:", this.guestId);
-         this.cardError = '';
-    this.cvvError = '';
-    this.monthError = '';
-    this.yearError = '';
-
-    let isValid = true;
-
-   
-    if(!this.cardNumber){
-        this.cardError = 'Card number is required';
-        isValid = false;
-    }
-    else if(!/^[0-9]+$/.test(this.cardNumber)){
-        this.cardError = 'Card number must contain only digits';
-        isValid = false;
-    }
-    
-
-  
-    if(!this.cvv){
-        this.cvvError = 'CVV is required';
-        isValid = false;
-    }
-    else if(!/^[0-9]+$/.test(this.cvv)){
-        this.cvvError = 'CVV must contain only digits';
-        isValid = false;
-    }
-   
-
-
-    if(!this.expiryMonth){
-        this.monthError = 'Select expiry month';
-        isValid = false;
-    }
-
-   
-    if(!this.expiryYear){
-        this.yearError = 'Select expiry year';
-        isValid = false;
-    }
-
-    
-    if(!isValid){
-        return;
-    }
-
-        savePayment({
-            cardNumber:this.cardNumber,
-            cvv:this.cvv,
-            expiryMonth:this.expiryMonth,
-            expiryYear:this.expiryYear,
-            guestId:this.guestId
-        })
-        .then(paymentId => {
-            console.log('Payment Success:', paymentId);
-
-            this.showToast(
-                'Success',
-                'Payment completed successfully and email sent!',
-                'success'
-            );
-            this[NavigationMixin.Navigate]({
-                type:'standard__recordPage',
-                attributes:{
-                    recordId:paymentId,
-                    objectApiName:'Payment_Detail__c',
-                    actionName:'view'
-                }
-            });
-        })
-        .catch(error=>{
-            console.error('Payment Error:', error);
-             this.showToast(
-                'Error',
-                error.body?.message || 'Payment failed',
-                'error'
-            );
-        });
-    }
-
-    showToast(title, message, variant){
-        this.dispatchEvent(
-            new ShowToastEvent({
-                title: title,
-                message: message,
-                variant: variant
-            })
-        );
-    }
+@wire(getPicklistValues,{
+recordTypeId:'$objectInfo.data.defaultRecordTypeId',
+fieldApiName:MONTH_FIELD
+})
+monthPicklist({data,error}){
+if(data){
+this.monthOptions=data.values;
 }
-        
+else if(error){
+console.error(error);
+}
+}
+
+@wire(getPicklistValues,{
+recordTypeId:'$objectInfo.data.defaultRecordTypeId',
+fieldApiName:YEAR_FIELD
+})
+yearPicklist({data,error}){
+if(data){
+this.yearOptions=data.values;
+}
+else if(error){
+console.error(error);
+}
+}
+
+@wire(CurrentPageReference)
+getState(pageRef){
+if(pageRef?.state?.c__guestId){
+this.guestId=pageRef.state.c__guestId;
+console.log('GuestId:',this.guestId);
+}
+}
+
+handleCardNumberChange(event){
+
+let value = event.target.value;
+value = value.replace(/\D/g,'');// allow digits only
+value = value.slice(0,19);
+
+// detect card type
+if(value.startsWith('4')){
+this.cardType='VISA';
+}
+else if(/^5[1-5]/.test(value)){
+this.cardType='MasterCard';
+}
+else if(/^3[47]/.test(value)){
+this.cardType='AMEX';
+}
+else{
+this.cardType='';
+}
+
+// format card number
+let formatted = value.replace(/(.{4})/g, '$1 ').trim();
+
+this.cardNumber=formatted;
+event.target.value=formatted;
+
+this.cardError='';
+}
+
+handleCvvChange(event){
+
+let value = event.target.value.replace(/\D/g,''); // digits only
+value = value.slice(0,4);
+
+this.cvv = value;
+event.target.value = value;
+
+this.cvvError='';
+}
+
+handleChange(event){
+const field=event.target.dataset.field;
+this[field]=event.target.value;
+}
+
+handleSubmit(){
+
+this.cardError='';
+this.cvvError='';
+this.monthError='';
+this.yearError='';
+
+let isValid=true;
+
+// clean card number
+console.log('Card Number State:', this.cardNumber);
+let cardNumberClean = (this.cardNumber || '').replace(/\D/g,'');
+
+// card length validation
+if(cardNumberClean.length < 16 || cardNumberClean.length > 19){
+this.cardError = 'Card number must be 16–19 digits';
+isValid = false;
+}
+
+// CVV validation
+if(this.cvv.length < 3 || this.cvv.length > 4){
+this.cvvError = 'CVV must be 3 or 4 digits';
+isValid = false;
+}
+console.log('Clean card number:', cardNumberClean);
+console.log('Length:', cardNumberClean.length);
+// expiry validation
+if(!this.expiryMonth){
+this.monthError='Select expiry month';
+isValid=false;
+}
+
+if(!this.expiryYear){
+this.yearError='Select expiry year';
+isValid=false;
+}
+
+if(!isValid){
+return;
+}
+
+savePayment({
+cardNumber:cardNumberClean,
+cvv:this.cvv,
+expiryMonth:this.expiryMonth,
+expiryYear:this.expiryYear,
+guestId:this.guestId
+})
+.then(()=>{
+
+this.showToast(
+'Success',
+'Payment completed successfully!',
+'success'
+);
+
+localStorage.setItem('openBookings','true');
+
+this[NavigationMixin.Navigate]({
+type:'standard__navItemPage',
+attributes:{
+apiName:'Hotel_Lists_Details'
+}
+});
+
+})
+.catch(error=>{
+console.error(error);
+
+this.showToast(
+'Error',
+error.body?.message || 'Payment failed',
+'error'
+);
+
+});
+}
+
+showToast(title,message,variant){
+this.dispatchEvent(
+new ShowToastEvent({
+title,
+message,
+variant
+})
+);
+}
+
+}

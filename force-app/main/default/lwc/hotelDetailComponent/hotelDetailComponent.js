@@ -1,27 +1,35 @@
-import { LightningElement, wire } from 'lwc';
-import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
+import { LightningElement, wire, api } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
 import getHotel from '@salesforce/apex/HotelListController.getHotel';
 
 export default class HotelDetailComponent extends NavigationMixin(LightningElement) {
 
-hotelId;
+@api hotelId;
 hotel;
-
-@wire(CurrentPageReference)
-getStateParameters(pageRef){
-if(pageRef){
-this.hotelId = pageRef.state.c__hotelId;
-}
-}
+stars = [];
 
 @wire(getHotel,{hotelId:'$hotelId'})
 hotelData({data,error}){
 if(data){
 this.hotel = data;
+this.stars = this.buildStars(data.Hotel_Rating__c);
 }
 if(error){
 console.error(error);
-}   
+}
+}
+
+buildStars(rating) {
+    const r = rating || 0;
+    const full = Math.floor(r);
+    const half = (r - full) >= 0.5;
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+        if (i < full) stars.push({ key: i, cls: 'star-full' });
+        else if (i === full && half) stars.push({ key: i, cls: 'star-half' });
+        else stars.push({ key: i, cls: 'star-empty' });
+    }
+    return stars;
 }
 
 handleBook(){

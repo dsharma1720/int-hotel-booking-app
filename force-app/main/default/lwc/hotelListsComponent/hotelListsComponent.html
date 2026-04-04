@@ -3,19 +3,25 @@
     <lightning-card title="Hotel Lists">
 
         <div class="slds-p-around_medium">
- <div class="auth-buttons slds-m-bottom_medium">
 
-   
-
-    </div>
         
-            <div class="slds-m-bottom_medium">
-                <lightning-combobox
-                    label="Select City"
-                    value={city}
-                    options={cityOptions}
-                    onchange={handleCityChange}>
-                </lightning-combobox>
+            <div class="filter-row slds-m-bottom_medium">
+                <div class="filter-item">
+                    <lightning-combobox
+                        label="Select City"
+                        value={city}
+                        options={cityOptions}
+                        onchange={handleCityChange}>
+                    </lightning-combobox>
+                </div>
+                <div class="filter-item">
+                    <lightning-combobox
+                        label="Minimum Rating"
+                        value=""
+                        options={ratingOptions}
+                        onchange={handleRatingChange}>
+                    </lightning-combobox>
+                </div>
             </div>
 
      
@@ -43,25 +49,28 @@
                                           data-id={hotel.Id}
                                           onclick={handleSelect}>
 
-
-
+                                        <template if:true={hotel.Hotel_Image__c}>
+                                            <img src={hotel.Hotel_Image__c} alt={hotel.Hotel_Name__c} class="hotel-image" />
+                                        </template>
 
 
                                <div class="hotel-info">
 
-                                        
-                                              <h2 class="hotel-name">{hotel.Hotel_Name__c}</h2>
-
-                                   
+                                        <div class="hotel-info-top">
+                                            <div class="hotel-info-left">
+                                                <h2 class="hotel-name">{hotel.Hotel_Name__c}</h2>
                                                 <div class="hotel-location">
                                                     {hotel.Hotel_City__c} — {hotel.Hotel_Type__c}
                                                 </div>
+                                            </div>
+                                            <div class="hotel-rating">
+                                                <template for:each={hotel.stars} for:item="star">
+                                                    <span key={star.key} class={star.cls}>&#9733;</span>
+                                                </template>
+                                                <span class="rating-number">{hotel.Hotel_Rating__c}</span>
+                                            </div>
+                                        </div>
 
-                                               <div class="hotel-rating">
-                                                   ⭐ {hotel.Hotel_Rating__c}
-                                               </div>
-
-                                             
                                                 <div class="hotel-price">
                                                     <lightning-formatted-number
                                                         value={hotel.Per_Day_Cost__c}
@@ -72,31 +81,31 @@
                                                 </div>
 
                                               
-                                                <div class="slds-m-top_small">
+                                                <div class="amenities">
 
-                                                    <span>
-                                                        WiFi:
-                                                        <template if:true={hotel.WiFi_Availability__c}>Yes</template>
-                                                        <template if:false={hotel.WiFi_Availability__c}>No</template>
+                                                    <span class="amenity-badge">
+                                                        &#128246; WiFi
+                                                        <template if:true={hotel.WiFi_Availability__c}><span class="badge-yes">&#10003;</span></template>
+                                                        <template if:false={hotel.WiFi_Availability__c}><span class="badge-no">&#10007;</span></template>
                                                     </span>
 
-                                                    <span class="slds-p-left_medium">
-                                                        Cash Pay:
-                                                        <template if:true={hotel.Cash_Pay_Availability__c}>Yes</template>
-                                                        <template if:false={hotel.Cash_Pay_Availability__c}>No</template>
+                                                    <span class="amenity-badge">
+                                                        &#128181; Cash Pay
+                                                        <template if:true={hotel.Cash_Pay_Availability__c}><span class="badge-yes">&#10003;</span></template>
+                                                        <template if:false={hotel.Cash_Pay_Availability__c}><span class="badge-no">&#10007;</span></template>
                                                     </span>
 
-                                                    <span class="slds-p-left_medium">
-                                                        Cancellation:
-                                                        <template if:true={hotel.Cancellation_Availability__c}>Yes</template>
-                                                        <template if:false={hotel.Cancellation_Availability__c}>No</template>
+                                                    <span class="amenity-badge">
+                                                        &#8635; Cancellation
+                                                        <template if:true={hotel.Cancellation_Availability__c}><span class="badge-yes">&#10003;</span></template>
+                                                        <template if:false={hotel.Cancellation_Availability__c}><span class="badge-no">&#10007;</span></template>
                                                     </span>
 
                                                 </div>
 
                                             </div>
 
-                                </div>
+                           
 
                             
 
@@ -123,4 +132,19 @@
         </div>
 
     </lightning-card>
+
+<!-- Hotel Detail Modal -->
+<template if:true={showHotelDetail}>
+    <div class="modal-backdrop" onclick={closeHotelDetail}></div>
+    <div class="modal-container">
+        <div class="modal-header">
+            <span class="modal-title">Hotel Details</span>
+            <span class="modal-close" onclick={closeHotelDetail}>&#x2715;</span>
+        </div>
+        <div class="modal-body">
+            <c-hotel-detail-component hotel-id={selectedHotelId}></c-hotel-detail-component>
+        </div>
+    </div>
+</template>
+
 </template>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
+    <label>Agentforce Studio</label>
+    <navType>Console</navType>
+    <tabs>standard-AgentforceStudio</tabs>
+    <tabs>Guest_Master__c</tabs>
+    <tabs>Hotel_Master__c</tabs>
+    <tabs>Payment_Master__c</tabs>
+    <tabs>Guest_Detail__c</tabs>
+    <tabs>Hotel_Detail__c</tabs>
+    <tabs>Payment_Detail__c</tabs>
+    <tabs>User_Account__c</tabs>
+    <uiType>Lightning</uiType>
+    <workspaceConfig>
+        <mappings>
+            <tab>Guest_Detail__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Guest_Master__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Hotel_Detail__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Hotel_Master__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Payment_Detail__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Payment_Master__c</tab>
+        </mappings>
+        <mappings>
+            <tab>User_Account__c</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-AgentforceStudio</tab>
+        </mappings>
+    </workspaceConfig>
+</CustomApplication>

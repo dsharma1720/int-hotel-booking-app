@@ -7,41 +7,44 @@
             <lightning-input
     label="Selected Hotel"
     value={hotelName}
-    disabled>
+    readonly>
 </lightning-input>
 
             <lightning-input label="First Name"
-                data-field="firstName"
-                onchange={handleChange} required>
+                value={firstName}
+                disabled>
             </lightning-input>
 
             <lightning-input label="Last Name"
                 data-field="lastName"
-                onchange={handleChange} required>
+                value={lastName}
+                disabled>
             </lightning-input>
 
             <lightning-input type="tel" label="Phone"
                 data-field="phone"
-                onchange={handleChange} required>
+                value={phone}
+               disabled>
             </lightning-input>
 
             <lightning-input type="email" label="Email"
                 data-field="email"
-                onchange={handleChange} required>
+                value={email}
+                disabled>
             </lightning-input>
 
             <lightning-input type="number" label="Adults"
                 data-field="adults"
                 value={adults}
-                  min="0"
-                onchange={handleChange}>
+                  min="1"
+                onchange={handleChange} required>
             </lightning-input>
 
             <lightning-input type="number" label="Children"
                 data-field="children"
                 value={children}
                   min="0"
-                onchange={handleChange}>
+                onchange={handleChange} required>
             </lightning-input>
 
             <lightning-input type="date" label="Check-In Date"
@@ -61,22 +64,16 @@
 </template>
 
             <lightning-input
-                label="Hotel City"
-                
-                data-field="city"
-                options={cityOptions}
-                value={city}
-                disabled>
-            </lightning-input>
+label="Hotel City"
+value={city}
+disabled>
+</lightning-input>
 
-            <lightning-input
-                label="Hotel Type"
-               
-                data-field="hotelType"
-                options={hotelOptions}
-                value={hotelType}
-               disabled>
-            </lightning-input>
+           <lightning-input
+label="Hotel Type"
+value={hotelType}
+disabled>
+</lightning-input>
 
 
             <br/>
