@@ -14,6 +14,6 @@ Apex | LWC | SOQL | NavigationMixin
 🔹 Demo:
 Salesforce Org: https://orgfarm-011df81aec-dev-ed.develop.lightning.force.com/lightning/page/home
  
- 
+
 🔹 Demo Video:
 https://drive.google.com/file/d/17m3T_lRWdlFHyPJol3Cgv17w10Yw4lRT/view?usp=sharing 
